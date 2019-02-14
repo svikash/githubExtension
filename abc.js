@@ -37,6 +37,7 @@ for(var i =0;i<y.length;i++)
         y[i].style["background-color"]="#330033";
     }
 }
+console.log("Helloo");
 /*
 #E0CCE0
 #BA49BA
