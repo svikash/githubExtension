@@ -12,28 +12,29 @@
          "#E0CCE0","#BA49BA","#660066","#330033"   
      ],
     [
-        "#663131"
+        "#F3D3D4","#E4999B","#D56062","#3B1B1B"
+    ],
+     [
+        "#DBC6C6", "#AB7A7A", "#663131", "#281313" 
     ],
     [
-        "#f25f04"
+        "#F9BF9A", "#F47E36", "#D95503", "#481C01"
     ],
     [
-        "#E6096A"
+        "#F7B5D2", "#ED5296", "#E6096A", "#45021F"
     ],
     [
-        "#3F2EEE"
+        "#C5C0F9", "#786CF3", "#3F2EEE", "#251b8e"
     ],
     [
-        "#067BC2"
+        "#C1D1FF", "#50a2d4", "#067BC2", "#033d61"
     ],
     [
-        "#fffb31"
-    ],
-    [
-
+        "#FEE858","#F4BC35","#E48734","#020014"
     ],
     // https://twitter.com/gladchinda/status/1057623504827355136
-]
+];
+var selected=color[Math.floor(Math.random()*color.length)];
 console.log("Helloo");
 document.addEventListener("DOMContentLoaded",function(){
     var x=document.getElementsByClassName("day");
@@ -42,16 +43,16 @@ for(var i =0;i<x.length;i++){
       //  x[i].setAttribute("fill","#000");
     }    
     else if(x[i].getAttribute("fill")=="#c6e48b"){
-        x[i].setAttribute("fill","#E0CCE0");
+        x[i].setAttribute("fill",selected[0]);
     }
     else if(x[i].getAttribute("fill")=="#7bc96f"){
-        x[i].setAttribute("fill","#BA49BA");
+        x[i].setAttribute("fill",selected[1]);
     }
     else if(x[i].getAttribute("fill")=="#239a3b"){
-        x[i].setAttribute("fill","#660066");
+        x[i].setAttribute("fill",selected[2]);
     }
     else if(x[i].getAttribute("fill")=="#196127"){
-        x[i].setAttribute("fill","#330033");
+        x[i].setAttribute("fill",selected[3]);
     }
 }
 var y=document.querySelectorAll(".legend li");
@@ -63,16 +64,16 @@ for(var i =0;i<y.length;i++)
       //  x[i].setAttribute("fill","#000");
     }    
     else if(p=="rgb(198, 228, 139)"){
-        y[i].style["background-color"]=("rgb(186, 73, 186)");
+        y[i].style["background-color"]=selected[0];
     }
     else if(p=="rgb(123, 201, 111)"){
-        y[i].style["background-color"]="#BA49BA";
+        y[i].style["background-color"]=selected[1];
     }
     else if(p=="rgb(35, 154, 59)"){
-        y[i].style["background-color"]="#660066";
+        y[i].style["background-color"]=selected[2];
     }
     else if(p=="rgb(25, 97, 39)"){
-        y[i].style["background-color"]="#330033";
+        y[i].style["background-color"]=selected[3];
     }
 }
 
