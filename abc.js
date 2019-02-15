@@ -1,14 +1,42 @@
 //changeColor.onclick = function(element) {
   //  let color = element.target.value;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.executeScript(
-          tabs[0].id,
-          {code: a});
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    //   chrome.tabs.executeScript(
+        //   tabs[0].id,
+        //   {code: a});
 
-        });
+        // });
  // };
+ var color=[
+    [
+         "#E0CCE0","#BA49BA","#660066","#330033"   
+     ],
+    [
+        "#663131"
+    ],
+    [
+        "#f25f04"
+    ],
+    [
+        "#E6096A"
+    ],
+    [
+        "#3F2EEE"
+    ],
+    [
+        "#067BC2"
+    ],
+    [
+        "#fffb31"
+    ],
+    [
+
+    ],
+    // https://twitter.com/gladchinda/status/1057623504827355136
+]
 console.log("Helloo");
-var a=`var x=document.getElementsByClassName("day");
+document.addEventListener("DOMContentLoaded",function(){
+    var x=document.getElementsByClassName("day");
 for(var i =0;i<x.length;i++){
     if(x[i].getAttribute("fill")== "#ebedf0"){
       //  x[i].setAttribute("fill","#000");
@@ -46,13 +74,24 @@ for(var i =0;i<y.length;i++)
     else if(p=="rgb(25, 97, 39)"){
         y[i].style["background-color"]="#330033";
     }
-}`
+}
+
+})
 
 /*
 #E0CCE0
 #BA49BA
 #660066
 #330033
+
+
+#F3D3D4
+#E4999B
+#D56062
+#3B1B1B
+
+
+#067BC2
 
 rgb(235, 237, 240)
 rgb(198, 228, 139)

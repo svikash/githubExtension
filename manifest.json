@@ -3,16 +3,11 @@
     "version": "1.0",
     "description": "Github Extension!",
     "manifest_version": 2,
-    "permissions":["activeTab","declarativeContent"],
+    "permissions":["activeTab","declarativeContent","https://github.com/"],
     "background": {
         "scripts": [
             "background.js"
         ],
         "persistent": false
-    },
-
-    "page_action": {
-        "default_popup": "popup.html"
-      }
-
+    }
 }
