@@ -5,9 +5,20 @@
     "manifest_version": 2,
     "permissions":["activeTab","declarativeContent","https://github.com/"],
     "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": false
+      "scripts": [
+          "background.js"
+      ],
+        
+        
+
+        
+      "persistent": false
+    },
+    "icons": {
+       "16": "16.png",
+       "32": "32.png",
+       "48": "48.png",
+       "128": "128.png",
+       "256": "256.png"
     }
 }
