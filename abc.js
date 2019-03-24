@@ -35,6 +35,9 @@
     // https://twitter.com/gladchinda/status/1057623504827355136
 ];
 var selected=color[Math.floor(Math.random()*color.length)];
+var max=[0];
+var currstreak=[0];
+
 console.log("Helloo");
 document.addEventListener("DOMContentLoaded",function(){
     var x=document.getElementsByClassName("day");
@@ -54,7 +57,27 @@ for(var i =0;i<x.length;i++){
     else if(x[i].getAttribute("fill")=="#196127"){
         x[i].setAttribute("fill",selected[3]);
     }
+    var curr = parseInt(x[i].getAttribute("data-count"));
+    if(curr > max[0]){
+        max[0] = curr;
+        max[1]= x[i].getAttribute("data-date");
+    }
+    currstreak[0]++;
+    if(curr == 0 ){
+        currstreak = [0];
+        
+    }
+    else{
+        if(currstreak[0]==0){
+            currstreak[1]=x[i].getAttribute("data-date"); //set start date
+        }
+        if(currstreak[1]!=undefined){
+            currstreak[2]=x[i].getAttribute("data-date"); //set end date
+        }
+    }
 }
+ 
+
 var y=document.querySelectorAll(".legend li");
 for(var i =0;i<y.length;i++)
 {
@@ -77,7 +100,7 @@ for(var i =0;i<y.length;i++)
     }
 }
 
-})
+
 
 /*
 #E0CCE0
@@ -106,3 +129,26 @@ rgb(25, 97, 39)
 
 
 */
+var container = document.querySelector(".graph-before-activity-overview");
+var graphdiv = document.createElement("div");
+graphdiv.innerHTML=`
+<style>
+h1{
+    color:${ selected[3] };
+    font-size:20px;
+}
+.graphspan{
+    font-style:italic;
+    font-size:12px;
+    color:lightgrey;
+}
+</style>
+`
+graphdiv.innerHTML+="<h5> Current Streak</h5> <h1>" + currstreak[0] + " <span class=\"graphspan\">From " + currstreak[1] + "</span></h1><h5>Maximum contribution in a day</h5> <h1>" +max[0] +"<span class=\"graphspan\"> On " +max[1] +"</span></h1>";
+
+container.insertBefore(graphdiv,container.firstChild);   
+
+
+
+})
+
