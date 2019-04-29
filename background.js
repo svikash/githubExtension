@@ -8,6 +8,6 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
       pageUrl: {hostEquals: 'github.com'},
     })
     ],
-        actions: [new chrome.declarativeContent.RequestContentScript({"js":["abc.js"]})]
+        actions: [new chrome.declarativeContent.RequestContentScript({"js":["three.js","abc.js"]})]
   }]);
 });
