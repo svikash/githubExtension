@@ -4,8 +4,6 @@
 
 
 
-
-
 //changeColor.onclick = function(element) {
   //  let color = element.target.value;
     // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -45,8 +43,16 @@
 var selected=color[Math.floor(Math.random()*color.length)];
 var max=[0];
 var currstreak=[0];
-
 console.log("Helloo");
+
+var container ;
+var graphdiv ;
+var data=[];
+var maxContri = 0;
+
+
+
+
 document.addEventListener("DOMContentLoaded",function(){
     var x=document.getElementsByClassName("day");
 for(var i =0;i<x.length;i++){
@@ -138,8 +144,45 @@ rgb(25, 97, 39)
 
 
 */
-var container = document.querySelector(".graph-before-activity-overview");
-var graphdiv = document.createElement("div");
+
+var el =document.querySelector(".js-calendar-graph-svg").children[0].querySelectorAll('g');
+el.forEach(function(parent){
+	Array.from(parent.children).forEach(function(rect){
+        var temp=[]
+     temp[0]=parseInt(parent.getAttribute('transform').substring(10,parent.getAttribute('transform').indexOf(",")))
+//        temp[0]=parseInt(rect.getAttribute('x'))
+        temp[1]=parseInt(rect.getAttribute('y'))
+        temp[2]=parseInt(rect.getAttribute('data-count'))
+        temp[3]=rect.getAttribute('fill')
+        temp[4]=rect.getAttribute('width')
+        data.push(temp)
+    })
+})
+//console.log(arr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+container = document.querySelector(".graph-before-activity-overview");
+graphdiv = document.createElement("div");
+
+
+
 graphdiv.className = 'graph-div metry-container';
 graphdiv.innerHTML=`
 <style>
@@ -155,14 +198,21 @@ h1{
     font-size:12px;
     color:lightgrey;
 }
+canvas{
+   /* position:absolute;*/
+
+}
 </style>
 `
+graphdiv.innerHTML+=`<h5> Current Streak</h5> <h1> ${ currstreak[0] } ${currstreak[0]==0 ? '' :`<span class=\"graphspan\">From ${currstreak[1] }</span>`}</h1><h5>Maximum contribution in a day</h5> <h1> ${max[0] } <span class=\"graphspan\"> On  ${ max[1] }</span></h1>`;
+
+container.insertBefore(graphdiv,container.firstChild);   
 
 
 
 
 
-
+/*
 var data = [
     [0,0,0,"#ebedf0"],[0,10,0,"#ebedf0"],[0,20,0,"#ebedf0"],[0,30,0,"#ebedf0"],[0,40,0,"#ebedf0"],[0,50,0,"#ebedf0"],[0,60,0,"#ebedf0"],
     [11,0,0,"#ebedf0"],[11,10,0,"#ebedf0"],[11,20,0,"#ebedf0"],[11,30,0,"#ebedf0"],[11,40,0,"#ebedf0"],[11,50,0,"#ebedf0"],[11,60,0,"#ebedf0"],
@@ -218,77 +268,14 @@ var data = [
     [561,0,13,"#196127"],[561,10,1,"#c6e48b"],[561,20,1,"#c6e48b"],[561,30,1,"#c6e48b"],[561,40,2,"#c6e48b"],[561,50,1,"#c6e48b"],[561,60,1,"#c6e48b"],
     [572,0,0,"#ebedf0"],[572,10,1,"#c6e48b"],[572,20,1,"#c6e48b"],[572,30,2,"#c6e48b"],[572,40,0,"#ebedf0"],
     ]
-    var maxContri = 0
+  */
     data.forEach(arr => maxContri = maxContri < arr[2] ? arr[2] : maxContri)
     // console.log(`Max Contri is ${maxContri}`)
     
+    makeGraph();
     
     
     
-    const W = 400, H = 400
-    
-    
-    
-    
-    
-    
-    let angX = 0.5, angY = -0.89, angZ = 0, angStep = 0.1
-    let trnX = -210, trnY = 60, trnZ = 20, trnStep = 10
-    var scene = new THREE.Scene()
-    scene.background = new THREE.Color( 0xffffff)
-    var camera = new THREE.PerspectiveCamera(45, W / H, 1, 10000)
-    var renderer = new THREE.WebGLRenderer({antialias: true})
-    console.log(renderer)
-    renderer.setSize(W, H)
-    // renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    graphdiv.appendChild(renderer.domElement)
-    // console.log(data)
-    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
-    scene.add( light );
-    var geometry
-    // new THREE.BoxGeometry(50, 200, 50, 10, 10, 10)
-    var material
-    // new THREE.MeshLambertMaterial({color: 0xfffff})
-    var cube
-    //new THREE.Mesh(geometry, material)
-    var cubes = new THREE.Object3D()
-    scene.add(cubes)
-    scene.add(new THREE.AmbientLight(0x212223));
-    const NUM = 10
-    var posX = -200, posY = 0, posZ = -100
-    var maxHeight = 30, minHeight = 5, cubeHeight = 0
-    for(let i = 0; i < data.length; i++){
-      cubeHeight = minHeight
-      if(maxContri > 0)
-        cubeHeight += data[i][2] * (maxHeight / maxContri)
-      geometry = new THREE.BoxGeometry(9, cubeHeight, 9)
-      material = new THREE.MeshLambertMaterial({color: data[i][3]})
-      cube = new THREE.Mesh(geometry, material)
-      cube.castShadow = true
-      cube.receiveShadow = true
-      // cube.position.set(posX, posY, posZ)
-      cube.position.set(posX + data[i][0], posY + (cubeHeight / 2), posZ + (data[i][1]))
-      cubes.add(cube)
-    }
-    // console.log(cubes)
-    var dirLight = new THREE.DirectionalLight(0xffffff, 1.2)
-    dirLight.position.set(-40, 12, -10)
-    dirLight.castShadow = true
-    scene.add(dirLight)
-    camera.position.z = 500
-    scene.add(camera)
-    rend = () => {
-      cubes.translateX = trnX
-      cubes.translateY = trnY
-      cubes.translateZ = trnZ
-      cubes.position.set(trnX, trnY, trnZ)
-      cubes.rotation.x = angX
-      cubes.rotation.y = angY
-      cubes.rotation.z = angZ
-      renderer.render(scene, camera)
-    }
-    var x = requestAnimationFrame(rend)
     // window.addEventListener('keydown', (ev) => {
     //   console.log(ev.keyCode)
     //   switch(ev.keyCode){
@@ -344,11 +331,81 @@ var data = [
 
 
 
-graphdiv.innerHTML+=`<h5> Current Streak</h5> <h1> ${ currstreak[0] } ${currstreak[0]==0 ? '' :`<span class=\"graphspan\">From ${currstreak[1] }</span>`}</h1><h5>Maximum contribution in a day</h5> <h1> ${max[0] } <span class=\"graphspan\"> On  ${ max[1] }</span></h1>`;
-
-container.insertBefore(graphdiv,container.firstChild);   
 
 
 
 })
-
+// 16:9
+/**
+ * W    16
+ * / =  /
+ * H    9
+*/
+function makeGraph(){
+    const W = document.querySelector(".metry-container").clientWidth,H = Math.floor((W*9)/16)
+    
+    console.log(data)
+    
+    
+    
+    
+    let angX = 0.5, angY = -0.89, angZ = 0, angStep = 0.1
+    let trnX = -210, trnY = 60, trnZ = 20, trnStep = 10
+    var scene = new THREE.Scene()
+    scene.background = new THREE.Color( 0xffffff)
+    var camera = new THREE.PerspectiveCamera(45, W / H, 1, 10000)
+    var renderer = new THREE.WebGLRenderer({antialias: true})
+    console.log(renderer)
+    renderer.setSize(W,H)
+    // renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    graphdiv.appendChild(renderer.domElement)
+    // console.log(data)
+    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    scene.add( light );
+    var geometry
+    // new THREE.BoxGeometry(50, 200, 50, 10, 10, 10)
+    var material
+    // new THREE.MeshLambertMaterial({color: 0xfffff})
+    var cube
+    //new THREE.Mesh(geometry, material)
+    var cubes = new THREE.Object3D()
+    scene.add(cubes)
+    scene.add(new THREE.AmbientLight(0x212223));
+    const NUM = 10
+    var posX = -200, posY = 0, posZ = -100
+    var maxHeight = 30, minHeight = 5, cubeHeight = 0, cubeWidth = 0
+    for(let i = 0; i < data.length; i++){
+      cubeHeight = minHeight
+      if(maxContri > 0)
+        cubeHeight += data[i][2] * (maxHeight / maxContri)
+      
+      cubeWidth=data[i][4]+1
+      geometry = new THREE.BoxGeometry(11, cubeHeight,15 )
+      material = new THREE.MeshLambertMaterial({color: data[i][3]})
+      cube = new THREE.Mesh(geometry, material)
+      cube.castShadow = true
+      cube.receiveShadow = true
+      // cube.position.set(posX, posY, posZ)
+      cube.position.set(posX + data[i][0], posY + (cubeHeight / 2), posZ + (data[i][1]))
+      cubes.add(cube)
+    }
+    // console.log(cubes)
+    var dirLight = new THREE.DirectionalLight(0xffffff, 1.2)
+    dirLight.position.set(-40, 12, -10)
+    dirLight.castShadow = true
+    scene.add(dirLight)
+    camera.position.z = 500
+    scene.add(camera)
+    rend = () => {
+      cubes.translateX = trnX
+      cubes.translateY = trnY
+      cubes.translateZ = trnZ
+      cubes.position.set(trnX, trnY, trnZ)
+      cubes.rotation.x = angX
+      cubes.rotation.y = angY
+      cubes.rotation.z = angZ
+      renderer.render(scene, camera)
+    }
+    var x = requestAnimationFrame(rend)
+}
