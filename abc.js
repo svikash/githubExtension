@@ -154,7 +154,7 @@ el.forEach(function(parent){
         temp[1]=parseInt(rect.getAttribute('y'))
         temp[2]=parseInt(rect.getAttribute('data-count'))
         temp[3]=rect.getAttribute('fill')
-        temp[4]=rect.getAttribute('width')
+        temp[4]=parseInt(rect.getAttribute('width'))
         data.push(temp)
     })
 })
@@ -381,7 +381,8 @@ function makeGraph(){
         cubeHeight += data[i][2] * (maxHeight / maxContri)
       
       cubeWidth=data[i][4]+1
-      geometry = new THREE.BoxGeometry(11, cubeHeight,15 )
+      console.log(cubeWidth)
+      geometry = new THREE.BoxGeometry(8, cubeHeight, 8)
       material = new THREE.MeshLambertMaterial({color: data[i][3]})
       cube = new THREE.Mesh(geometry, material)
       cube.castShadow = true
