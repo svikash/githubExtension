@@ -276,51 +276,7 @@ var data = [
     
     
     
-    // window.addEventListener('keydown', (ev) => {
-    //   console.log(ev.keyCode)
-    //   switch(ev.keyCode){
-    //     case 37: //left
-    //       angY -= angStep
-    //       break
-    //     case 38: //up
-    //       angX += angStep
-    //       break
-    //     case 39: //right
-    //       angY += angStep
-    //       break
-    //     case 40: //bottom
-    //       angX -= angStep
-    //       break
-    //     case 222: //Z up
-    //       angZ -= angStep
-    //       break
-    //     case 191: //Z up
-    //       angZ += angStep
-    //       break
-    //     case 87: //W
-    //       trnY += trnStep
-    //       break
-    //     case 83: //S
-    //       trnY -= trnStep
-    //       break
-    //     case 65: //A
-    //       trnX -= trnStep
-    //       break
-    //     case 68: //D
-    //       trnX += trnStep
-    //       break
-    //     case 82: //R
-    //       trnZ += trnStep
-    //       break
-    //     case 70: //F
-    //       trnZ -= trnStep
-    //       break
-    //     default:
-    //       return
-    //   }
-    //   console.log(`${angX}  ${angY}  ${angZ} ||| ${trnX} ${trnY} ${trnZ}`)
-    //   requestAnimationFrame(rend)
-    // })
+    
 
 
 
@@ -350,7 +306,8 @@ function makeGraph(){
     
     
     let angX = 0.5, angY = -0.89, angZ = 0, angStep = 0.1
-    let trnX = -210, trnY = 60, trnZ = 20, trnStep = 10
+    // let trnX = -210, trnY = 60, trnZ = 40, trnStep = 10
+    let trnX = -240, trnY = 100, trnZ = 40, trnStep = 10
     var scene = new THREE.Scene()
     scene.background = new THREE.Color( 0xffffff)
     var camera = new THREE.PerspectiveCamera(45, W / H, 1, 10000)
@@ -409,4 +366,53 @@ function makeGraph(){
       renderer.render(scene, camera)
     }
     var x = requestAnimationFrame(rend)
+
+
+    window.addEventListener('keydown', (ev) => {
+      console.log(ev.keyCode)
+      switch(ev.keyCode){
+        case 37: //left
+          angY -= angStep
+          break
+        case 38: //up
+          angX += angStep
+          break
+        case 39: //right
+          angY += angStep
+          break
+        case 40: //bottom
+          angX -= angStep
+          break
+        case 222: //Z up
+          angZ -= angStep
+          break
+        case 191: //Z up
+          angZ += angStep
+          break
+        case 87: //W
+          trnY += trnStep
+          break
+        case 83: //S
+          trnY -= trnStep
+          break
+        case 65: //A
+          trnX -= trnStep
+          break
+        case 68: //D
+          trnX += trnStep
+          break
+        case 82: //R
+          trnZ += trnStep
+          break
+        case 70: //F
+          trnZ -= trnStep
+          break
+        default:
+          return
+      }
+      console.log(`${angX}  ${angY}  ${angZ} ||| ${trnX} ${trnY} ${trnZ}`)
+      requestAnimationFrame(rend)
+    })
+
+
 }
