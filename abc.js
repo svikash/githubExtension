@@ -305,9 +305,20 @@ function makeGraph(){
     
     
     
-    let angX = 0.5, angY = -0.89, angZ = 0, angStep = 0.1
+    //let angX = 0.5, angY = -0.89, angZ = 0, angStep = 0.1
     // let trnX = -210, trnY = 60, trnZ = 40, trnStep = 10
-    let trnX = -240, trnY = 100, trnZ = 40, trnStep = 10
+    //let trnX = -240, trnY = 100, trnZ = 0, trnStep = 10
+    var  angX= 0, angY=0, angZ=0, angStep=0.1 , trnX = 0, trnY = 0, trnZ = 0, trnStep = 10;
+    const act =document.querySelector("[name='user[activity_overview_enabled]']")
+    console.log(act);
+    if(act.firstElementChild.nodeName==="svg"){
+        //activity is on
+        angX= 0.5, angY=-0.99, angZ=0 , trnX = -210, trnY = 60, trnZ = 40;
+
+    }
+    else{
+        angX= 0.5, angY=-0.99, angZ=0,  trnX = -260, trnY = 120, trnZ = 0 
+    }
     var scene = new THREE.Scene()
     scene.background = new THREE.Color( 0xffffff)
     var camera = new THREE.PerspectiveCamera(45, W / H, 1, 10000)
