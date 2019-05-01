@@ -382,7 +382,7 @@ function makeGraph(){
       
       cubeWidth=data[i][4]+1
       console.log(cubeWidth)
-      geometry = new THREE.BoxGeometry(8, cubeHeight, 8)
+      geometry = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeWidth)
       material = new THREE.MeshLambertMaterial({color: data[i][3]})
       cube = new THREE.Mesh(geometry, material)
       cube.castShadow = true
