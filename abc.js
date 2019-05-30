@@ -13,36 +13,48 @@
 
         // });
  // };
- var color=[
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+var color=[
+  [
+    "#E0CCE0","#BA49BA","#660066","#330033"   
+  ],
+  [
+      "#F3D3D4","#E4999B","#D56062","#3B1B1B"
+  ],
     [
-         "#E0CCE0","#BA49BA","#660066","#330033"   
-     ],
-    [
-        "#F3D3D4","#E4999B","#D56062","#3B1B1B"
-    ],
-     [
-        "#DBC6C6", "#AB7A7A", "#663131", "#281313" 
-    ],
-    [
-        "#F9BF9A", "#F47E36", "#D95503", "#481c01"
-    ],
-    [
-        "#F7B5D2", "#f06ba5", "#E6096A", "#45021f"
-    ],
-    [
-        "#C5C0F9", "#786CF3", "#3F2EEE", "#251b8e"
-    ],
-    [
-        "#C1D1FF", "#50a2d4", "#067BC2", "#01243a"
-    ],
-    [
-        "#FEE858","#F4BC35","#E48734","#020014"
-    ],
-    // https://twitter.com/gladchinda/status/1057623504827355136
+      "#DBC6C6", "#AB7A7A", "#663131", "#281313" 
+  ],
+  [
+      "#F9BF9A", "#F47E36", "#D95503", "#481c01"
+  ],
+  [
+      "#F7B5D2", "#f06ba5", "#E6096A", "#45021f"
+  ],
+  [
+      "#C5C0F9", "#786CF3", "#3F2EEE", "#251b8e"
+  ],
+  [
+      "#C1D1FF", "#50a2d4", "#067BC2", "#01243a"
+  ],
+  [
+      "#FEE858","#F4BC35","#E48734","#020014"
+  ],
+  // https://twitter.com/gladchinda/status/1057623504827355136
 ];
+
+function toDateString(str){
+  str = str.split('-')
+  str = str[2] + ' ' + months[parseInt(str[1])]
+  return str
+}
+
+
+
 var selected=color[Math.floor(Math.random()*color.length)];
 var max=[0];
 var currstreak=[0];
+var maxstreak = [0];
 console.log("Helloo");
 
 var container ;
@@ -54,40 +66,38 @@ var maxContri = 0;
 
 
 document.addEventListener("DOMContentLoaded",function(){
-    var x=document.getElementsByClassName("day");
+var x=document.getElementsByClassName("day");
 for(var i =0;i<x.length;i++){
-    if(x[i].getAttribute("fill")== "#ebedf0"){
-      //  x[i].setAttribute("fill","#000");
-    }    
-    else if(x[i].getAttribute("fill")=="#c6e48b"){
-        x[i].setAttribute("fill",selected[0]);
+  if(x[i].getAttribute("fill")=="#c6e48b")
+    x[i].setAttribute("fill",selected[0]);
+  else if(x[i].getAttribute("fill")=="#7bc96f")
+    x[i].setAttribute("fill",selected[1]);
+  else if(x[i].getAttribute("fill")=="#239a3b")
+    x[i].setAttribute("fill",selected[2]);
+  else if(x[i].getAttribute("fill")=="#196127")
+    x[i].setAttribute("fill",selected[3]);
+  var curr = parseInt(x[i].getAttribute("data-count"));
+  if(curr > max[0]){
+    max[0] = curr;
+    max[1]= toDateString(x[i].getAttribute("data-date"));
+  }
+  if(curr == 0){
+    if(currstreak[0] > maxstreak[0]){
+      maxstreak[0] = currstreak[0]
+      maxstreak[1] = currstreak[1]
+      maxstreak[2] = currstreak[2]
     }
-    else if(x[i].getAttribute("fill")=="#7bc96f"){
-        x[i].setAttribute("fill",selected[1]);
+    currstreak = [0]; // reset the streak
+      
+  }
+  else{
+    if(currstreak[0]==0){
+      currstreak[1]=toDateString(x[i].getAttribute("data-date")); //set start date
     }
-    else if(x[i].getAttribute("fill")=="#239a3b"){
-        x[i].setAttribute("fill",selected[2]);
+    if(currstreak[1]!=undefined){
+      currstreak[2]=toDateString(x[i].getAttribute("data-date")); //set end date
     }
-    else if(x[i].getAttribute("fill")=="#196127"){
-        x[i].setAttribute("fill",selected[3]);
-    }
-    var curr = parseInt(x[i].getAttribute("data-count"));
-    if(curr > max[0]){
-        max[0] = curr;
-        max[1]= x[i].getAttribute("data-date");
-    }
-    if(curr == 0 ){
-        currstreak = [0]; // reset the streak
-        
-    }
-    else{
-        if(currstreak[0]==0){
-            currstreak[1]=x[i].getAttribute("data-date"); //set start date
-        }
-        if(currstreak[1]!=undefined){
-            currstreak[2]=x[i].getAttribute("data-date"); //set end date
-        }
-        currstreak[0]++;//increase the streak
+    currstreak[0]++;//increase the streak
     }
 }
  
@@ -113,6 +123,8 @@ for(var i =0;i<y.length;i++)
         y[i].style["background-color"]=selected[3];
     }
 }
+
+
 
 
 
@@ -155,19 +167,11 @@ el.forEach(function(parent){
         temp[2]=parseInt(rect.getAttribute('data-count'))
         temp[3]=rect.getAttribute('fill')
         temp[4]=parseInt(rect.getAttribute('width'))
+        temp[5]=rect.dataset.date
         data.push(temp)
     })
 })
 //console.log(arr);
-
-
-
-
-
-
-
-
-
 
 
 
@@ -184,27 +188,86 @@ graphdiv = document.createElement("div");
 
 
 graphdiv.className = 'graph-div metry-container';
+graphdiv.style.position = 'relative'
 graphdiv.innerHTML=`
-<style>
+<style scoped>
+// .graph-div > div{
+//   display: inline-block;
+//   margin: 20px;
+// }
 h1{
-    color:${ selected[3] };
-    font-size:20px;
+  color:${ selected[2] };
+  font-size: 2.6rem;
 }
-.graph-div{
-    height: 800px;
+h5{
+  font-size: 1.2rem;
+  margin-top: 0;
 }
 .graphspan{
-    font-style:italic;
-    font-size:12px;
-    color:lightgrey;
+  font-style:italic;
+  font-size: 1.1rem;
+  color:lightgrey;
 }
 canvas{
-   /* position:absolute;*/
-
+  position: absolute;
+  top: 1px;
+  left: 0;
+  z-index: -1;
 }
+.top{
+  top: -8px;
+}
+.left{
+  left: 0;
+}
+.right{
+  right: 0;
+}
+.bottom{
+  bottom: 0;
+}
+.bar{
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+.max-contri{
+  // position: absolute;
+}
+.max-streak{
+  // position: absolute;
+}
+
 </style>
 `
-graphdiv.innerHTML+=`<h5> Current Streak</h5> <h1> ${ currstreak[0] } ${currstreak[0]==0 ? '' :`<span class=\"graphspan\">From ${currstreak[1] }</span>`}</h1><h5>Maximum contribution in a day</h5> <h1> ${max[0] } <span class=\"graphspan\"> On  ${ max[1] }</span></h1>`;
+graphdiv.innerHTML+=`
+  <div class="top bar">
+    <div class="curr-streak">
+      <h5>Current Streak</h5>
+      <h1>
+        ${ currstreak[0] } ${currstreak[0]==0 ? '' :`<span class=\"graphspan\">From ${currstreak[1] }</span>`}
+      </h1>
+    </div>
+    <div class="max-contri">
+      <h5>Maximum contributions in a day</h5>
+      <h1>
+        ${max[0]} <span class=\"graphspan\"> On  ${ max[1] }</span>
+      </h1>
+    </div>
+  </div>
+  <div class="bottom bar">
+    <div class="max-streak">
+      <h5>Maximum streak</h5>
+      <h1>
+      ${maxstreak[0]} ${maxstreak[0] == 0 ? '' :`<span class=\"graphspan\">From ${maxstreak[1] } to ${maxstreak[2] }</span>`}
+      </h1>
+    </div>
+  </div>
+
+`;
 
 container.insertBefore(graphdiv,container.firstChild);   
 
@@ -298,8 +361,9 @@ var data = [
  * H    9
 */
 function makeGraph(){
-    const W = document.querySelector(".metry-container").clientWidth,H = Math.floor((W*9)/16)
-    
+    const W = document.querySelector(".metry-container").clientWidth,H = Math.floor((W * 8) / 16)
+    console.log('graphdiv is', graphdiv)
+    graphdiv.style.height = H + 'px'
     console.log(data)
     
     
@@ -307,22 +371,18 @@ function makeGraph(){
     
     //let angX = 0.5, angY = -0.89, angZ = 0, angStep = 0.1
     // let trnX = -210, trnY = 60, trnZ = 40, trnStep = 10
-<<<<<<< HEAD
-    let trnX = -240, trnY = 100, trnZ = 0, trnStep = 10
-=======
     //let trnX = -240, trnY = 100, trnZ = 0, trnStep = 10
     var  angX= 0, angY=0, angZ=0, angStep=0.1 , trnX = 0, trnY = 0, trnZ = 0, trnStep = 10;
     const act =document.querySelector("[name='user[activity_overview_enabled]']")
     console.log(act);
     if(act.firstElementChild.nodeName==="svg"){
         //activity is on
-        angX= 0.5, angY=-0.99, angZ=0 , trnX = -210, trnY = 60, trnZ = 40;
-
+        angX= 0.3, angY=-0.89, angZ=0 , trnX = -280, trnY = 70, trnZ = -70;
+        graphdiv.style.fontSize = '12px'
     }
     else{
-        angX= 0.5, angY=-0.99, angZ=0,  trnX = -260, trnY = 120, trnZ = 0 
+        angX= 0.4, angY=-0.89, angZ=0,  trnX = -340, trnY = 140, trnZ = -150 
     }
->>>>>>> cd2fcf8a87d53f3b56dcd504be79d3dc69ff92cf
     var scene = new THREE.Scene()
     scene.background = new THREE.Color( 0xffffff)
     var camera = new THREE.PerspectiveCamera(45, W / H, 1, 10000)
@@ -333,7 +393,7 @@ function makeGraph(){
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     graphdiv.appendChild(renderer.domElement)
     // console.log(data)
-    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    var light = new THREE.AmbientLight( 0x606060 ); // soft white light
     scene.add( light );
     var geometry
     // new THREE.BoxGeometry(50, 200, 50, 10, 10, 10)
@@ -343,10 +403,10 @@ function makeGraph(){
     //new THREE.Mesh(geometry, material)
     var cubes = new THREE.Object3D()
     scene.add(cubes)
-    scene.add(new THREE.AmbientLight(0x212223));
+    // scene.add(new THREE.AmbientLight(0x212223));
     const NUM = 10
     var posX = -200, posY = 0, posZ = -100
-    var maxHeight = 30, minHeight = 5, cubeHeight = 0, cubeWidth = 0
+    var maxHeight = 30, minHeight = 1, cubeHeight = 0, cubeWidth = 0
     for(let i = 0; i < data.length; i++){
       cubeHeight = minHeight
       if(maxContri > 0)
@@ -355,17 +415,17 @@ function makeGraph(){
       cubeWidth=data[i][4]+1
       console.log(cubeWidth)
       geometry = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeWidth)
-      material = new THREE.MeshLambertMaterial({color: data[i][3]})
+      material = new THREE.MeshPhongMaterial({color: data[i][3], shininess: 1})
       cube = new THREE.Mesh(geometry, material)
-      cube.castShadow = true
+      // cube.castShadow = true
       cube.receiveShadow = true
       // cube.position.set(posX, posY, posZ)
       cube.position.set(posX + data[i][0], posY + (cubeHeight / 2), posZ + (data[i][1]))
       cubes.add(cube)
     }
     // console.log(cubes)
-    var dirLight = new THREE.DirectionalLight(0xffffff, 1.2)
-    dirLight.position.set(-40, 12, -10)
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    dirLight.position.set(0, 5, 10)
     dirLight.castShadow = true
     scene.add(dirLight)
     camera.position.z = 500
