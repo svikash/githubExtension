@@ -378,7 +378,6 @@ function makeGraph(){
     if(act.firstElementChild.nodeName==="svg"){
         //activity is on
         angX= 0.3, angY=-0.89, angZ=0 , trnX = -280, trnY = 70, trnZ = -70;
-        graphdiv.style.fontSize = '12px'
     }
     else{
         angX= 0.4, angY=-0.89, angZ=0,  trnX = -340, trnY = 140, trnZ = -150 
