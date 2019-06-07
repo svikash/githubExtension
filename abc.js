@@ -377,10 +377,10 @@ function makeGraph(){
     console.log(act);
     if(act.firstElementChild.nodeName==="svg"){
         //activity is on
-        angX= 0.3, angY=-0.89, angZ=0 , trnX = -280, trnY = 70, trnZ = -70;
+        angX = 0.3, angY = -0.89, angZ = 0 , trnX = -280, trnY = 70, trnZ = -70;
     }
     else{
-        angX= 0.4, angY=-0.89, angZ=0,  trnX = -340, trnY = 140, trnZ = -150 
+        angX = 0.4, angY = -0.99, angZ = 0,  trnX = -260, trnY = 140, trnZ = -190;
     }
     var scene = new THREE.Scene()
     scene.background = new THREE.Color( 0xffffff)
